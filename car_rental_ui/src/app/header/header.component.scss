@@ -1,0 +1,17 @@
+.header-container{
+  display: flex;
+  justify-content: space-between;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+div{
+  display: flex;
+  float: right;
+  justify-content: center;
+  vertical-align: center;
+}
+
+.info-text{
+  font-size: 14px;
+}
+
