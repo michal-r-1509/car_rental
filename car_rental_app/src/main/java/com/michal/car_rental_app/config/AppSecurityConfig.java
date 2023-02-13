@@ -6,8 +6,8 @@ import com.michal.car_rental_app.login.security.CustomLogoutSuccessHandler;
 import com.michal.car_rental_app.user.tools.MD5Encoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,8 +37,11 @@ public class AppSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().configurationSource(corsConfigurationSource())
                 .and().csrf().csrfTokenRepository(csrfTokenRepository()).disable() //allow to send requests
-                .headers().frameOptions().sameOrigin().and()  //allow to open h2.console
+                .headers().frameOptions().sameOrigin()//allow to open h2.console
+                .and()
+//                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
                 .authorizeHttpRequests().requestMatchers("/**").permitAll()
+                .requestMatchers("/api/**").authenticated()
                 .and()
                 .formLogin().successHandler(authSuccessHandler).failureHandler(authFailureHandler)
                 .usernameParameter("email").passwordParameter("password").permitAll()
@@ -86,6 +89,29 @@ public class AppSecurityConfig {
         repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
     }
+
+/*    private Filter csrfHeaderFilter() {
+        return new OncePerRequestFilter() {
+
+            @Override
+            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain filterChain) throws ServletException, IOException {
+
+                CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+                if (csrf != null) {
+                    Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
+                    String token = csrf.getToken();
+                    if (cookie == null || token != null && !token.equals(cookie.getValue())) {
+                        cookie = new Cookie("XSRF-TOKEN", token);
+                        cookie.setPath("/");
+                        cookie.setDomain("localhost");
+                        response.addCookie(cookie);
+                    }
+                }
+                filterChain.doFilter(request, response);
+            }
+        };
+    }*/
 
 }
 

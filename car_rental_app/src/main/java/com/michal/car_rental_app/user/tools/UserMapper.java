@@ -1,9 +1,9 @@
 package com.michal.car_rental_app.user.tools;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.michal.car_rental_app.domain.RoleType;
-import com.michal.car_rental_app.domain.User;
+import com.michal.car_rental_app.domain.*;
 import com.michal.car_rental_app.user.dto.UserRequest;
+import com.michal.car_rental_app.user.dto.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +23,26 @@ public class UserMapper {
                 .createDate(LocalDateTime.now())
                 .build();
         return user;
+    }
+
+
+    public UserDetails userDataMapper(UserUpdateRequest data, RoleType role) {
+        if (role.equals(RoleType.CLIENT)){
+            return ClientDetails.builder()
+                    .name(data.getName())
+                    .surname(data.getSurname())
+                    .phoneNumber(data.getPhoneNumber())
+                    .build();
+        } else if (role.equals(RoleType.LENDER)) {
+            return LenderDetails.builder()
+                    .name(data.getName())
+                    .address(data.getAddress())
+                    .phoneNumber(data.getPhoneNumber())
+                    .taxPayerIdentNo(data.getTaxPayerIdentNo())
+                    .description(data.getDescription())
+                    .build();
+        }else {
+            throw new IllegalArgumentException();
+        }
     }
 }

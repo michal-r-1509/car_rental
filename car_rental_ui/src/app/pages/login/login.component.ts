@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {LoginService} from "../../user/service/login.service";
+import {AuthService} from "../../user/service/auth.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -13,7 +13,7 @@ export class LoginComponent {
   email = new FormControl('', [Validators.required/*, Validators.email*/]);
   password = new FormControl('', [Validators.required]);
 
-  constructor(private loginService: LoginService, private router: Router) {
+  constructor(private loginService: AuthService, private router: Router) {
   }
 
   loginGroup = new FormGroup({

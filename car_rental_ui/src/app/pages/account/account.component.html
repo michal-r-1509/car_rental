@@ -1,0 +1,49 @@
+<main>
+  <form (ngSubmit)="updateAccount()" [formGroup]="updateGroup" class="mb-account-form">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" name="name" [formControl]="nameControl">
+        <mat-error *ngIf="nameControl.hasError('exception')">Invalid pattern</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Surname</mat-label>
+        <input matInput type="text" name="surname" [formControl]="surnameControl">
+        <mat-error *ngIf="surnameControl.hasError('exception')">Invalid pattern</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput type="text" name="address" [formControl]="addressControl">
+        <mat-error *ngIf="addressControl.hasError('maxlength')">Invalid pattern</mat-error>
+      </mat-form-field>
+      </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Phone</mat-label>
+        <input matInput type="text" name="phoneNumber" [formControl]="phoneControl">
+        <mat-error *ngIf="phoneControl.hasError('pattern')">Invalid pattern</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Taxpayer Identity Number</mat-label>
+        <input matInput type="text" name="taxPayerIdentNo" [formControl]="taxPayerIdentNoControl">
+        <mat-error *ngIf="taxPayerIdentNoControl.hasError('pattern')">Invalid pattern</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput type="text" name="taxPayerIdentNo" [formControl]="descriptionControl"></textarea>
+        <mat-error *ngIf="descriptionControl.hasError('maxlength')">Invalid pattern</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="top-spacing">
+      <button mat-raised-button type="submit">Update</button>
+    </div>
+  </form>
+</main>

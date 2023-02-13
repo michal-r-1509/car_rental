@@ -1,15 +1,12 @@
 package com.michal.car_rental_app.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-//@Getter
-//@Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,4 +18,12 @@ public class User extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private RoleType role;
     private LocalDateTime createDate;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "client_details_id", referencedColumnName = "id")
+    private ClientDetails clientDetails;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "lender_details_id", referencedColumnName = "id")
+    private LenderDetails lenderDetails;
 }

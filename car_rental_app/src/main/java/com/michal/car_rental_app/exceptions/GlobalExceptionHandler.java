@@ -19,4 +19,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public String noAlgorithmException(NoSuchAlgorithmException e){
         return e.getMessage();
     }
+
+    @ExceptionHandler(ElementNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String elementNotFound(ElementNotFoundException e){
+        return e.getMessage();
+    }
 }

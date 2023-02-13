@@ -3,8 +3,10 @@ package com.michal.car_rental_app.login.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.michal.car_rental_app.domain.CurrentUser;
 import com.michal.car_rental_app.domain.User;
+import com.michal.car_rental_app.exceptions.ElementNotFoundException;
 import com.michal.car_rental_app.login.dto.LoginResponseDTO;
 import com.michal.car_rental_app.user.repository.UserRepository;
+import com.michal.car_rental_app.user.service.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
     private final CurrentUser currentUser;
     private final ObjectMapper objectMapper;
+    private final UserServiceImpl userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -33,8 +36,12 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
 
         Object principal = authentication.getPrincipal();
         if (principal instanceof UserDetails) {
-            User user = userRepository.findByEmail(((UserDetails) authentication.getPrincipal()).getUsername());
+            User user = userRepository.findByEmail(((UserDetails) authentication.getPrincipal()).getUsername())
+                    .orElseThrow(() -> new ElementNotFoundException("user not found"));
             currentUser.setId(user.getId());
+            currentUser.setEmail(user.getEmail());
+
+            log.info("current user id: " + currentUser.getId() + " email: " + currentUser.getEmail());
 
             UserDetails userDetails = (UserDetails) principal;
             String role = userDetails.getAuthorities().toString();
@@ -48,6 +55,8 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
             responseWriter.flush();
 
             log.info("user: " + userDetails.getUsername() + " is logged in");
+
+            userService.testConnection();
         }else {
             throw new IllegalArgumentException("principal invalid");
         }

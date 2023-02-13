@@ -17,7 +17,7 @@
   <div [ngSwitch]="loginService.isUserLoggedIn()">
     <a mat-button *ngSwitchCase="false" [routerLink]="'registration'" routerLinkActive="active">Register</a>
     <a mat-button *ngSwitchCase="false" [routerLink]="'login'" routerLinkActive="active">Login</a>
-    <a mat-button *ngSwitchCase="true" [routerLink]="'my-account'" routerLinkActive="active">My account</a>
+    <a mat-button *ngSwitchCase="true" [routerLink]="'account'" routerLinkActive="active">My account</a>
     <a mat-button *ngSwitchCase="true" [routerLink]="'logout'" routerLinkActive="active">Logout</a>
   </div>
 

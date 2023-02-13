@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/car_rental.iml" filepath="$PROJECT_DIR$/.idea/car_rental.iml" />
       <module fileurl="file://$PROJECT_DIR$/car_rental_app/car_rental_app.iml" filepath="$PROJECT_DIR$/car_rental_app/car_rental_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/car_rental_ui/car_rental_ui.iml" filepath="$PROJECT_DIR$/car_rental_ui/car_rental_ui.iml" />
     </modules>
   </component>
 </project>
