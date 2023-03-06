@@ -5,13 +5,16 @@ import {PageNotFoundComponent} from "./pages/page-not-found/page-not-found.compo
 import {LoginComponent} from "./pages/login/login.component";
 import {LogoutComponent} from "./pages/logout/logout.component";
 import {AccountComponent} from "./pages/account/account.component";
+import {HomeComponent} from "./pages/home/home.component";
+import {FleetComponent} from "./pages/fleet/fleet.component";
 
 const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginComponent, pathMatch: 'full'},
   {path: 'logout', component: LogoutComponent},
   {path: 'account', component: AccountComponent},
-  {path: '**', component: PageNotFoundComponent}
+  {path: 'fleet', component: FleetComponent},
+  {path: '**', component: HomeComponent}
 ];
 
 @NgModule({

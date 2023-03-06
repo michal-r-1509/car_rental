@@ -13,10 +13,11 @@
         <mat-label>Password</mat-label>
         <input matInput type="password" name="password" [formControl]="password">
         <mat-error *ngIf="password.hasError('required')">Password required</mat-error>
+        <mat-error *ngIf="password.hasError('minlength')">Too short</mat-error>
       </mat-form-field>
     </div>
     <div>
-      <mat-radio-group (change)="onChangeDescription()" [formControl]="role" aria-label="Wybierz typ konta">
+      <mat-radio-group (change)="onChangeDescription()" [formControl]="role" aria-label="Account type">
         <div>
           <mat-radio-button value="client" name="role">Private customer</mat-radio-button>
         </div>

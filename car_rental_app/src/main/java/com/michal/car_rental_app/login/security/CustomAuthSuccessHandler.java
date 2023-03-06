@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.michal.car_rental_app.domain.CurrentUser;
 import com.michal.car_rental_app.domain.User;
 import com.michal.car_rental_app.exceptions.ElementNotFoundException;
-import com.michal.car_rental_app.login.dto.LoginResponseDTO;
+import com.michal.car_rental_app.login.dto.LoginResponseDto;
 import com.michal.car_rental_app.user.repository.UserRepository;
-import com.michal.car_rental_app.user.service.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +27,6 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
     private final CurrentUser currentUser;
     private final ObjectMapper objectMapper;
-    private final UserServiceImpl userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -38,14 +36,18 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
         if (principal instanceof UserDetails) {
             User user = userRepository.findByEmail(((UserDetails) authentication.getPrincipal()).getUsername())
                     .orElseThrow(() -> new ElementNotFoundException("user not found"));
+            if (!user.isActive()){
+                user.setActive(true);
+                userRepository.save(user);
+            }
             currentUser.setId(user.getId());
             currentUser.setEmail(user.getEmail());
 
-            log.info("current user id: " + currentUser.getId() + " email: " + currentUser.getEmail());
+            log.info("current user id: " + currentUser.getId() + ", email: " + currentUser.getEmail());
 
             UserDetails userDetails = (UserDetails) principal;
             String role = userDetails.getAuthorities().toString();
-            LoginResponseDTO loginResponseDTO = new LoginResponseDTO(userDetails.getUsername(), role);
+            LoginResponseDto loginResponseDTO = new LoginResponseDto(userDetails.getUsername(), role);
             String responseBody = objectMapper.writeValueAsString(loginResponseDTO);
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -54,9 +56,7 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
             responseWriter.print(responseBody);
             responseWriter.flush();
 
-            log.info("user: " + userDetails.getUsername() + " is logged in");
-
-            userService.testConnection();
+            log.info("user with email " + userDetails.getUsername() + " logged in");
         }else {
             throw new IllegalArgumentException("principal invalid");
         }

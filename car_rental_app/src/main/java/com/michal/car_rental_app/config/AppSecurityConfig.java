@@ -1,9 +1,16 @@
 package com.michal.car_rental_app.config;
 
+import com.michal.car_rental_app.login.security.CustomAuthEntryPoint;
 import com.michal.car_rental_app.login.security.CustomAuthFailureHandler;
 import com.michal.car_rental_app.login.security.CustomAuthSuccessHandler;
 import com.michal.car_rental_app.login.security.CustomLogoutSuccessHandler;
 import com.michal.car_rental_app.user.tools.MD5Encoder;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,15 +18,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,6 +43,7 @@ public class AppSecurityConfig {
     private final CustomAuthSuccessHandler authSuccessHandler;
     private final CustomAuthFailureHandler authFailureHandler;
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
+//    private final CustomAuthEntryPoint customAuthEntryPoint;
     private final DataSource dataSource;
     private final MD5Encoder md5Encoder;
 
@@ -39,13 +53,18 @@ public class AppSecurityConfig {
                 .and().csrf().csrfTokenRepository(csrfTokenRepository()).disable() //allow to send requests
                 .headers().frameOptions().sameOrigin()//allow to open h2.console
                 .and()
-//                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-                .authorizeHttpRequests().requestMatchers("/**").permitAll()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionFixation().migrateSession()
+                .and()
+                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+                .authorizeHttpRequests().requestMatchers("/", "/**", "/console/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .and()
                 .formLogin().successHandler(authSuccessHandler).failureHandler(authFailureHandler)
                 .usernameParameter("email").passwordParameter("password").permitAll()
                 .and()
+//                .exceptionHandling().authenticationEntryPoint(customAuthEntryPoint)
+//                .and()
                 .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler);
         return http.build();
@@ -90,7 +109,7 @@ public class AppSecurityConfig {
         return repository;
     }
 
-/*    private Filter csrfHeaderFilter() {
+    private Filter csrfHeaderFilter() {
         return new OncePerRequestFilter() {
 
             @Override
@@ -111,7 +130,7 @@ public class AppSecurityConfig {
                 filterChain.doFilter(request, response);
             }
         };
-    }*/
+    }
 
 }
 

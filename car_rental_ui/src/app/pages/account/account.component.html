@@ -1,17 +1,17 @@
-<main>
+<main style="display: grid">
   <form (ngSubmit)="updateAccount()" [formGroup]="updateGroup" class="mb-account-form">
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
         <input matInput type="text" name="name" [formControl]="nameControl">
-        <mat-error *ngIf="nameControl.hasError('exception')">Invalid pattern</mat-error>
+        <mat-error *ngIf="nameControl.hasError('maxlength')">Invalid pattern</mat-error>
       </mat-form-field>
     </div>
-    <div>
+    <div *ngIf="getRole().includes('CLIENT')">
       <mat-form-field appearance="fill">
         <mat-label>Surname</mat-label>
         <input matInput type="text" name="surname" [formControl]="surnameControl">
-        <mat-error *ngIf="surnameControl.hasError('exception')">Invalid pattern</mat-error>
+        <mat-error *ngIf="surnameControl.hasError('maxlength')">Invalid pattern</mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -28,14 +28,14 @@
         <mat-error *ngIf="phoneControl.hasError('pattern')">Invalid pattern</mat-error>
       </mat-form-field>
     </div>
-    <div>
+    <div *ngIf="getRole().includes('LENDER')">
       <mat-form-field appearance="fill">
         <mat-label>Taxpayer Identity Number</mat-label>
         <input matInput type="text" name="taxPayerIdentNo" [formControl]="taxPayerIdentNoControl">
         <mat-error *ngIf="taxPayerIdentNoControl.hasError('pattern')">Invalid pattern</mat-error>
       </mat-form-field>
     </div>
-    <div>
+    <div *ngIf="getRole().includes('LENDER')">
       <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
         <textarea matInput type="text" name="taxPayerIdentNo" [formControl]="descriptionControl"></textarea>
@@ -44,6 +44,22 @@
     </div>
     <div class="top-spacing">
       <button mat-raised-button type="submit">Update</button>
+    </div>
+  </form>
+
+  <form (ngSubmit)="deleteAccount()" [formGroup]="deleteGroup" class="mb-account-form">
+    <div>
+      <mat-checkbox (change)="deleteCheck($event.checked)" [formControl]="confirmationControl">Delete account</mat-checkbox>
+    </div>
+    <div class="top-spacing" *ngIf="formShow == true">
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" [formControl]="passwordControl">
+        <mat-error *ngIf="passwordControl.hasError('required')">Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="top-spacing" *ngIf="formShow == true">
+      <button mat-raised-button type="submit">Delete</button>
     </div>
   </form>
 </main>

@@ -15,15 +15,12 @@ import java.time.LocalDateTime;
 public class User extends BaseEntity{
     private String email;
     private String password;
+    private boolean active = true;
     @Enumerated(EnumType.STRING)
     private RoleType role;
     private LocalDateTime createDate;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "client_details_id", referencedColumnName = "id")
-    private ClientDetails clientDetails;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "lender_details_id", referencedColumnName = "id")
-    private LenderDetails lenderDetails;
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "details_id", referencedColumnName = "id")
+    private UserDetails userDetails;
 }

@@ -21,3 +21,11 @@ main{
 .top-spacing{
   padding-top: 1em;
 }
+
+.top-nav-bar{
+  display: flex;
+  justify-content: center;
+  background-color: rgba(103, 58, 182, 0.5);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

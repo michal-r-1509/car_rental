@@ -12,7 +12,6 @@ import org.springframework.web.context.annotation.SessionScope;
 @SessionScope
 @Component
 public class CurrentUser {
-    //TODO not working because of frontend session issue
     private Long id;
     private String email;
 }

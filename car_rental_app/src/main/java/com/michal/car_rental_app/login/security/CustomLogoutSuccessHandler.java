@@ -19,11 +19,11 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                                 Authentication authentication) throws IOException, ServletException {
         if (authentication == null){
-            log.info("user is logged out");
+            log.info("user is not logged in");
         }
         if (authentication != null){
             Object principal = authentication.getPrincipal();
-            log.info("user: " + ((UserDetails)principal).getUsername() + " tried to log out");
+            log.info("user with email " + ((UserDetails)principal).getUsername() + " logged out");
         }
         response.setStatus(HttpServletResponse.SC_OK);
     }

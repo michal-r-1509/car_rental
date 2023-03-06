@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../user/service/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent {
   email = new FormControl('', [Validators.required/*, Validators.email*/]);
   password = new FormControl('', [Validators.required]);
 
-  constructor(private loginService: AuthService, private router: Router) {
+  constructor(private loginService: AuthService, private toastr: ToastrService, private router: Router) {
   }
 
   loginGroup = new FormGroup({
@@ -27,17 +28,19 @@ export class LoginComponent {
     }
     this.loginService.authenticate(this.getEmail().value, this.getPassword().value).subscribe({
       next: (data) => {
-        console.log('User login success');
+        console.log('NewUser login success');
         if (this.loginService.getRole().includes("CLIENT")){
-          this.router.navigate(['page-not-found']);
+          this.router.navigate(['home']);
         }else if (this.loginService.getRole().includes("LENDER")){
-          this.router.navigate(['page-not-found']);
+          this.router.navigate(['account']);
         }
       },
-      error: () => console.log('Login failed'),
-      complete: () => console.log('completed, now redirection expected')
+      error: () => {console.log('Login failed');
+        this.toastr.error("Login failed");
+        },
+      complete: () => this.loginGroup.reset()
     });
-    this.loginGroup.reset();
+
   }
 
   private getEmail(): FormControl {

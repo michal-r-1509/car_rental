@@ -25,4 +25,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public String elementNotFound(ElementNotFoundException e){
         return e.getMessage();
     }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String incorrectPassword(IncorrectPasswordException e){
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(UserExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String userAlreadyExists(UserExistException e){
+        return e.getMessage();
+    }
 }

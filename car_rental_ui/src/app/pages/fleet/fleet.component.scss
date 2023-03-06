@@ -1,0 +1,22 @@
+mat-card-content{
+  display: flex;
+  align-content: center;
+  flex-direction: row;
+  height: fit-content;
+}
+mat-card{
+  display: flex;
+  flex-direction: row;
+}
+.facilities{
+  display: flex;
+  justify-content: space-between;
+}
+span{
+  font-size: small;
+  padding-right: 2em;
+  color: rgba(0,0,0,0.54);
+}
+.photo{
+  padding: 5px;
+}

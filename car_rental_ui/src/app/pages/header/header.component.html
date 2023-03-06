@@ -1,0 +1,30 @@
+<mat-toolbar class="header-container" color="primary">
+  <div>
+    <a mat-button [routerLink]="'home'">CAR RENTAL</a>
+    <div *ngIf="loginService.isUserLoggedIn()">
+      <a mat-button *ngIf="loginService.getRole().includes('CLIENT')"
+         [routerLink]="'page-not-found'" routerLinkActive="active">Link client</a>
+      <a mat-button *ngIf="loginService.getRole().includes('CLIENT')"
+         [routerLink]="'page-not-found'" routerLinkActive="active">Link client no 2</a>
+      <a mat-button *ngIf="loginService.getRole().includes('LENDER')"
+         [routerLink]="'fleet'" routerLinkActive="active">Fleet</a>
+      <a mat-button *ngIf="loginService.getRole().includes('LENDER')"
+         [routerLink]="'page-not-found'" routerLinkActive="active">Reservations</a>
+    </div>
+  </div>
+
+  <div>
+    <span class="info-text" *ngIf="loginService.isUserLoggedIn()">{{loginService.getUsername()}}</span>
+  </div>
+
+  <div [ngSwitch]="loginService.isUserLoggedIn()">
+    <a mat-button *ngSwitchCase="false" [routerLink]="'registration'" routerLinkActive="active">Register</a>
+    <a mat-button *ngSwitchCase="false" [routerLink]="'login'" routerLinkActive="active">Login</a>
+    <a mat-button *ngSwitchCase="true" [routerLink]="'account'" routerLinkActive="active">My account</a>
+    <a mat-button *ngSwitchCase="true" [routerLink]="'logout'" routerLinkActive="active">Logout</a>
+  </div>
+
+  <!--delete this link!!-->
+  <a [routerLink]="'fleet'" routerLinkActive="active">Fleet</a>
+
+</mat-toolbar>

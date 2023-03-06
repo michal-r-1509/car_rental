@@ -1,0 +1,22 @@
+.form_container{
+  padding-bottom: 15px;
+}
+
+.inner_form_container{
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-form-field{
+  padding-right: 15px;
+  width: 250px;
+}
+
+h1{
+  margin-bottom: 5px;
+}
+
+.footer_buttons{
+  float: right;
+  margin: 20px;
+}
