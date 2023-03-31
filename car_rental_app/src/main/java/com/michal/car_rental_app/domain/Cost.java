@@ -15,6 +15,5 @@ import java.math.BigDecimal;
 @Table(name = "costs")
 public class Cost extends BaseEntity{
     private BigDecimal perDay;
-    private BigDecimal perWeek;
     private BigDecimal insurance;
 }

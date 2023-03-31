@@ -6,10 +6,10 @@
     </div>
     <div class="inner_form_container">
       <!--  <p>registry number</p>-->
-      <mat-form-field appearance="fill">
+<!--      <mat-form-field appearance="fill">
         <mat-label>Registry number</mat-label>
         <input matInput name="regNo" [formControl]="regNoControl">
-      </mat-form-field>
+      </mat-form-field>-->
       <mat-form-field appearance="fill">
         <mat-label>Brand</mat-label>
         <input matInput name="brand" [formControl]="brandControl">
@@ -20,11 +20,11 @@
       </mat-form-field>
     </div>
 
-    <div class="inner_form_container">
+<!--    <div class="inner_form_container">
       <mat-form-field appearance="fill">
         <mat-label>Insurance end date</mat-label>
         <input matInput [matDatepicker]="insurance" [formControl]="insuranceEndDateControl">
-        <!--        <mat-hint>DD/MM/YYYY</mat-hint>-->
+        &lt;!&ndash;        <mat-hint>DD/MM/YYYY</mat-hint>&ndash;&gt;
         <mat-datepicker-toggle matSuffix [for]="insurance"></mat-datepicker-toggle>
         <mat-datepicker #insurance></mat-datepicker>
       </mat-form-field>
@@ -42,13 +42,13 @@
         <mat-datepicker-toggle matSuffix [for]="nextTechReview"></mat-datepicker-toggle>
         <mat-datepicker #nextTechReview></mat-datepicker>
       </mat-form-field>
-    </div>
+    </div>-->
 
     <div class="inner_form_container">
-      <mat-form-field appearance="fill">
+<!--      <mat-form-field appearance="fill">
         <mat-label>Engine power [hp]</mat-label>
         <input matInput type="number" name="enginePower" [formControl]="enginePowerControl">
-      </mat-form-field>
+      </mat-form-field>-->
 
       <mat-form-field appearance="fill">
         <mat-label>Gearbox type</mat-label>
@@ -75,10 +75,10 @@
         <input matInput type="number" name="seats" [formControl]="seatsControl">
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+<!--      <mat-form-field appearance="fill">
         <mat-label>Trunk capacity</mat-label>
         <input matInput type="number" name="trunkCap" [formControl]="trunkCapControl">
-      </mat-form-field>
+      </mat-form-field>-->
 
     </div>
     <div class="inner_form_container">
@@ -86,10 +86,10 @@
         <mat-label>Per day [PLN]</mat-label>
         <input matInput type="number" name="perDay" [formControl]="perDayControl">
       </mat-form-field>
-      <mat-form-field appearance="fill">
+<!--      <mat-form-field appearance="fill">
         <mat-label>Per week [PLN]</mat-label>
         <input matInput type="number" name="perWeek" [formControl]="perWeekControl">
-      </mat-form-field>
+      </mat-form-field>-->
       <mat-form-field appearance="fill">
         <mat-label>Insurance [PLN]</mat-label>
         <input matInput type="number" name="insurance" [formControl]="insuranceControl">
@@ -98,7 +98,7 @@
   </div>
 
   <div mat-dialog-actions class="footer_buttons">
-    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button mat-dialog-close>Cancel</button>
     <button mat-button type="submit" cdkFocusInitial>Ok</button>
   </div>
 </form>

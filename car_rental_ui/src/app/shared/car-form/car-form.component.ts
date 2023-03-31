@@ -15,49 +15,50 @@ import {Car} from "../../domain/car";
 export class CarFormComponent {
 
   today = new Date();
+  tempId = 0;
 
-  regNoControl = new FormControl("");
+  // regNoControl = new FormControl("");
   brandControl = new FormControl("");
   modelControl = new FormControl("");
   availableControl = new FormControl(true);
 
-  insuranceEndDateControl = new FormControl("", []);
-  registerDateControl = new FormControl("", []);
-  nextTechReviewDateControl = new FormControl("", []);
+  // insuranceEndDateControl = new FormControl("", []);
+  // registerDateControl = new FormControl("", []);
+  // nextTechReviewDateControl = new FormControl("", []);
 
-  enginePowerControl = new FormControl("");
+  // enginePowerControl = new FormControl("");
   gearboxControl = new FormControl("");
   fuelControl = new FormControl("");
-  fuelUsageControl = new FormControl("");
+  // fuelUsageControl = new FormControl("");
 
   seatsControl = new FormControl("");
-  trunkCapControl = new FormControl("");
+  // trunkCapControl = new FormControl("");
 
   perDayControl = new FormControl("");
-  perWeekControl = new FormControl("");
+  // perWeekControl = new FormControl("");
   insuranceControl = new FormControl("");
 
   carForm: FormGroup = new FormGroup({
-    regNo: this.regNoControl,
+    // regNo: this.regNoControl,
     brand: this.brandControl,
     model: this.modelControl,
     available: this.availableControl,
-    insuranceEndDate: this.insuranceEndDateControl,
-    registerDate: this.registerDateControl,
-    nextTechReviewDate: this.nextTechReviewDateControl,
-    enginePower: this.enginePowerControl,
-    gearbox: this.gearboxControl,
-    fuel: this.fuelControl,
-    fuelUsage: this.fuelUsageControl,
+    // insuranceEndDate: this.insuranceEndDateControl,
+    // registerDate: this.registerDateControl,
+    // nextTechReviewDate: this.nextTechReviewDateControl,
+    // enginePower: this.enginePowerControl,
+    gearboxType: this.gearboxControl,
+    fuelType: this.fuelControl,
+    // fuelUsage: this.fuelUsageControl,
     seats: this.seatsControl,
-    trunkCap: this.trunkCapControl,
+    // trunkCap: this.trunkCapControl,
     perDay: this.perDayControl,
-    perWeek: this.perWeekControl,
+    // perWeek: this.perWeekControl,
     insurance: this.insuranceControl
   });
 
   gearboxTypes: string[] = ["manual", "automatic"];
-  fuelTypes: string[] = ["gasoline", "LPG", "diesel", "electric", "hybrid", "CNG"];
+  fuelTypes: string[] = ["gasoline", "lpg", "diesel", "electric", "hybrid", "cng"];
 
 
   constructor(public dialogRef: MatDialogRef<FleetComponent>,
@@ -66,30 +67,68 @@ export class CarFormComponent {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    // this.dialogRef.close();
+    this.carForm.reset();
   }
 
   submit(): void {
-    if (!this.authService.isUserLoggedIn() || !this.authService.getRole().includes("LENDER") || this.carForm.invalid){
-      // console.log("car data NOT submitted");
-      let temp: string = this.regNoControl.value as string;
-      let temp2: string = this.regNoControl.value ?? '';
-      console.log("string to:" + temp + ":ot co")
-      console.log("string to:" + temp2 + ":ot co")
+    if (!this.authService.isUserLoggedIn() || !this.authService.getRole().includes("LENDER") || this.carForm.invalid) {
+      console.log("car data NOT submitted");
+      // let temp: string = this.regNoControl.value as string;
+      // let temp2: string = this.regNoControl.value ?? '';
+      // console.log("string to:" + temp + ":ot co")
+      // console.log("string to:" + temp2 + ":ot co")
       return;
     }
+    /*
+        const carDetails: CarDetails = new CarDetails();
+        carDetails.gearbox = this.gearboxControl.value ?? this.gearboxTypes[0];
+        carDetails.fuel = this.fuelControl.value ?? this.fuelTypes[0];
+        carDetails.seats = Number(this.seatsControl.value ?? '0');
 
-    const car: Car = new Car();
-    car.regNo = this.regNoControl.value ?? '';
+        const cost: Cost =  new Cost();
+        cost.perDay = Number(this.perDayControl.value ?? '0');
+        cost.insurance = Number(this.insuranceControl.value ?? '0');*/
 
-
-    if (this.data.tempId != 0){
-      this.carService.updateCar(new Car(), this.data.tempId);
-    }else{
-      this.carService.createCar(new Car());
+    let car: Car = {
+      id: 0,
+      brand: this.brandControl.value ?? '',
+      model: this.modelControl.value ?? '',
+      available: this.availableControl.value ?? false,
+      carDetails: {
+        seats: Number(this.seatsControl.value ?? '0'),
+        fuelType: this.fuelControl.value ?? this.fuelTypes[0],
+        gearboxType: this.gearboxControl.value ?? this.gearboxTypes[0]
+      },
+      cost: {
+        insurance: Number(this.insuranceControl.value ?? '0'),
+        perDay: Number(this.perDayControl.value ?? '0'),
+      }
     }
 
-    console.log("car data submitted");
+    if (this.data.tempId != 0) {
+      car.id = this.tempId;
+      this.carService.updateCar(car, this.data.tempId).pipe().subscribe({
+        next: () => {console.log("poszlo")},
+        error: () => {console.log("nie poszlo")},
+        complete: () => {
+          this.dialogRef.close();
+          this.carForm.reset();
+        }
+      });
+      console.log("car updated");
+    } else {
+      this.carService.createCar(car).pipe().subscribe({
+        next: () => {console.log("poszlo")},
+        error: () => {console.log("nie poszlo create")},
+        complete: () => {
+          this.dialogRef.close();
+          this.carForm.reset();
+        }
+      });
+      console.log(car);
+      console.log("new car created");
+    }
   }
 
 }

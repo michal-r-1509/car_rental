@@ -19,4 +19,12 @@ export class CarService {
   updateCar(car: Car, id: number): Observable<void>{
     return this.http.put<void>(this.apiConstraints.apiUrl + "cars/" + id, car);
   }
+
+  getUserCars(): Observable<Car[]> {
+    return this.http.get<Car[]>(this.apiConstraints.apiUrl + "cars/currentUser");
+  }
+
+  getAllCars(): Observable<Car[]> {
+    return this.http.get<Car[]>(this.apiConstraints.apiUrl + "cars");
+  }
 }

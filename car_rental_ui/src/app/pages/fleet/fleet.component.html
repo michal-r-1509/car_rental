@@ -1,29 +1,35 @@
 <div class="top-nav-bar">
-  <button mat-raised-button (click)="openDialog()">Add car</button>
+  <button mat-raised-button (click)="openNewCarDialog('Add new car')">Add car
+    <mat-icon>library_add</mat-icon>
+  </button>
 </div>
 
 <main>
-<mat-card-content>
+<mat-card-content *ngFor="let car of cars">
   <mat-card>
     <div class="photo">
       <img src="assets/photo-not-available.png">
     </div>
     <div>
       <mat-card-header>
-        <mat-card-title>Car name</mat-card-title>
-        <mat-card-subtitle>Description</mat-card-subtitle>
+        <mat-card-title>{{car.brand}} {{car.model}}
+          <mat-icon *ngIf="car.available == true" style="color: green">check_circle_outline</mat-icon>
+          <mat-icon *ngIf="car.available == false" style="color: red">highlight_off</mat-icon>
+        </mat-card-title>
+        <mat-card-subtitle>&euro;{{car.cost.perDay}} per day</mat-card-subtitle>
+        <mat-card-subtitle>&euro;{{car.cost.insurance}} for insurance</mat-card-subtitle>
       </mat-card-header>
 
       <div class="facilities">
-        <mat-card-content>
-          <span>content</span>
-          <span>content2</span>
-          <span>content3</span>
+        <mat-card-content class="inside-content">
+          <span class="facilities">seats: {{car.carDetails.seats}}</span>
+          <span class="facilities">gearbox: {{car.carDetails.gearboxType}}</span>
+          <span class="facilities">fuel: {{car.carDetails.fuelType}}</span>
         </mat-card-content>
       </div>
       <mat-card-actions>
-        <button mat-button>EDIT</button>
-        <button mat-button>DELETE</button>
+        <button mat-button (click)="openEditCarDialog('Edit car')">EDIT<mat-icon>edit</mat-icon></button>
+        <button mat-button>DELETE <mat-icon>delete_outline</mat-icon></button>
       </mat-card-actions>
     </div>
   </mat-card>

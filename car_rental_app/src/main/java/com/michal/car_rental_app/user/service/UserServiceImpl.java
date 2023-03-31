@@ -1,6 +1,7 @@
 package com.michal.car_rental_app.user.service;
 
 import com.michal.car_rental_app.domain.CurrentUser;
+import com.michal.car_rental_app.domain.RoleType;
 import com.michal.car_rental_app.domain.User;
 import com.michal.car_rental_app.domain.UserDetails;
 import com.michal.car_rental_app.exceptions.ElementNotFoundException;
@@ -92,4 +93,28 @@ public class UserServiceImpl implements UserService {
         return () -> new ElementNotFoundException("user not found");
     }
 
+    @Override
+    public void updateInitUser(UserDto data) {
+        User user = userRepository.findById(data.getId()).orElseThrow(getUserNotFound());
+
+        UserDetails userDetails = new UserDetails();
+
+        userMapper.userDataMapper(data, user.getRole(), userDetails);
+        userDetailsRepository.save(userDetails);
+        user.setUserDetails(userDetails);
+
+        userRepository.save(user);
+        System.out.println(userDetails.getName());
+        log.info("user with email " + user.getEmail() + " updated");
+    }
+
+    @Override
+    public void createDummyUser(UserRegistrationRequestDto registrationDto, UserDto detailsDto) {
+        User user = userMapper.userMapper(registrationDto);
+        UserDetails userDetails = userMapper.userDataMapper(detailsDto, user.getRole());
+        user.setUserDetails(userDetails);
+        userRepository.save(user);
+        userDetailsRepository.save(userDetails);
+        log.info("dummy user with id " + user.getId() + " created");
+    }
 }

@@ -14,4 +14,5 @@ import org.springframework.web.context.annotation.SessionScope;
 public class CurrentUser {
     private Long id;
     private String email;
+    private RoleType role;
 }

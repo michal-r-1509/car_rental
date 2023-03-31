@@ -22,7 +22,8 @@ public class UserMapper {
                 .email(request.getEmail())
                 .password(md5Encoder.getMD5Hash(request.getPassword()))
                 .active(true)
-                .role(objectMapper.convertValue(request.getRole().toUpperCase(), RoleType.class))
+//                .role(objectMapper.convertValue(request.getRole().toUpperCase(), RoleType.class))
+                .role(request.getRole())
                 .createDate(LocalDateTime.now())
                 .build();
     }

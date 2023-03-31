@@ -37,4 +37,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public String userAlreadyExists(UserExistException e){
         return e.getMessage();
     }
+
+    @ExceptionHandler(ActionNotAllowedException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public String methodNotAllowed(ActionNotAllowedException e){
+        return e.getMessage();
+    }
 }

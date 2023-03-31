@@ -1,22 +1,16 @@
 package com.michal.car_rental_app.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "cars")
-public class Car extends BaseEntity{
-    private String regNo;
+public class Car extends BaseEntity {
     private String brand;
     private String model;
     private boolean available;
@@ -26,4 +20,8 @@ public class Car extends BaseEntity{
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "costsId", referencedColumnName = "id")
     private Cost cost;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

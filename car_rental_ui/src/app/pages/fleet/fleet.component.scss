@@ -1,22 +1,35 @@
+main{
+  display: grid;
+  height: 0%;
+}
 mat-card-content{
-  display: flex;
-  align-content: center;
   flex-direction: row;
   height: fit-content;
+  width: fit-content;
+  padding: 10px;
 }
+.inside-content{
+  display: grid;
+  flex-direction: column;
+}
+mat-card-title{
+  padding-bottom: 10px;
+}
+
 mat-card{
-  display: flex;
   flex-direction: row;
 }
-.facilities{
-  display: flex;
-  justify-content: space-between;
+mat-card-actions{
+  float: right;
 }
-span{
+.facilities{
   font-size: small;
   padding-right: 2em;
   color: rgba(0,0,0,0.54);
 }
+
 .photo{
+  display: flex;
   padding: 5px;
+  vertical-align: auto;
 }

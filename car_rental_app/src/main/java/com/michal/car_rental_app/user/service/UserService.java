@@ -11,4 +11,6 @@ public interface UserService {
     UserDto getUser();
     List<User> getUsers();
     void deleteUser(UserDeleteRequestDto user);
+    void updateInitUser(UserDto data);
+    void createDummyUser(UserRegistrationRequestDto registrationDto, UserDto detailsDto);
 }

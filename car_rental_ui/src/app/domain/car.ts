@@ -1,27 +1,15 @@
-export class Car{
-  // id: number;
-  regNo: string;
+export interface Car {
+  id: number;
   brand: string;
   model: string;
   available: boolean;
-  techDetails:{
-    enginePower: number;
-    gearbox: string;
-    fuel: string;
-    fuelUsage: number;
-  };
-  usageDetails: {
+  carDetails: {
     seats: number;
-    trunkCap: number;
-  };
-  legalStatus:{
-    insuranceEndDate: Date;
-    registerDate: Date;
-    nextTechReviewDate: Date;
+    gearboxType: string;
+    fuelType: string;
   };
   cost: {
     perDay: number;
-    perWeek: number;
     insurance: number;
   };
 }

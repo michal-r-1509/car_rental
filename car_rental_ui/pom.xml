@@ -7,7 +7,6 @@
     <groupId>com.michal</groupId>
     <artifactId>car_rental</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <!--		<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
 <!--    <relativePath>../pom.xml</relativePath>-->
   </parent>
 
@@ -20,9 +19,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",-->
 
-  <!--	<groupId>com.michal</groupId>-->
   <artifactId>car_rental_ui</artifactId>
-<!--  <version>0.0.1-SNAPSHOT</version>-->
 
   <packaging>jar</packaging>
 

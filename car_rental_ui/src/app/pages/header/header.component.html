@@ -1,15 +1,19 @@
 <mat-toolbar class="header-container" color="primary">
   <div>
-    <a mat-button [routerLink]="'home'">CAR RENTAL</a>
+    <a mat-button [routerLink]="'home'">CAR RENTAL <mat-icon>home</mat-icon></a>
     <div *ngIf="loginService.isUserLoggedIn()">
       <a mat-button *ngIf="loginService.getRole().includes('CLIENT')"
          [routerLink]="'page-not-found'" routerLinkActive="active">Link client</a>
       <a mat-button *ngIf="loginService.getRole().includes('CLIENT')"
          [routerLink]="'page-not-found'" routerLinkActive="active">Link client no 2</a>
       <a mat-button *ngIf="loginService.getRole().includes('LENDER')"
-         [routerLink]="'fleet'" routerLinkActive="active">Fleet</a>
+         [routerLink]="'fleet'" routerLinkActive="active">Fleet
+        <mat-icon> directions_car</mat-icon>
+      </a>
       <a mat-button *ngIf="loginService.getRole().includes('LENDER')"
-         [routerLink]="'page-not-found'" routerLinkActive="active">Reservations</a>
+         [routerLink]="'page-not-found'" routerLinkActive="active">Reservations
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
     </div>
   </div>
 
@@ -18,10 +22,18 @@
   </div>
 
   <div [ngSwitch]="loginService.isUserLoggedIn()">
-    <a mat-button *ngSwitchCase="false" [routerLink]="'registration'" routerLinkActive="active">Register</a>
-    <a mat-button *ngSwitchCase="false" [routerLink]="'login'" routerLinkActive="active">Login</a>
-    <a mat-button *ngSwitchCase="true" [routerLink]="'account'" routerLinkActive="active">My account</a>
-    <a mat-button *ngSwitchCase="true" [routerLink]="'logout'" routerLinkActive="active">Logout</a>
+    <a mat-button *ngSwitchCase="false" [routerLink]="'registration'" routerLinkActive="active">Register
+      <mat-icon>person_add</mat-icon>
+    </a>
+    <a mat-button *ngSwitchCase="false" [routerLink]="'login'" routerLinkActive="active">Login
+      <mat-icon>touch_app</mat-icon>
+    </a>
+    <a mat-button *ngSwitchCase="true" [routerLink]="'account'" routerLinkActive="active">My account
+      <mat-icon>account_circle</mat-icon>
+    </a>
+    <a mat-button *ngSwitchCase="true" [routerLink]="'logout'" routerLinkActive="active">Logout
+      <mat-icon>power_settings_new</mat-icon>
+    </a>
   </div>
 
   <!--delete this link!!-->

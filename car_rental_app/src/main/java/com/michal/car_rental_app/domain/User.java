@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,4 +24,7 @@ public class User extends BaseEntity{
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private UserDetails userDetails;
+
+    @OneToMany(orphanRemoval = true)
+    private List<Car> cars;
 }

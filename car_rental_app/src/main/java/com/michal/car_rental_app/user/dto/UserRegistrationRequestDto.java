@@ -1,5 +1,8 @@
 package com.michal.car_rental_app.user.dto;
 
+import com.michal.car_rental_app.domain.RoleType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserRegistrationRequestDto {
     @NotNull
-    String email;
-    String password;
-    String role;
+    private String email;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
 }

@@ -7,7 +7,7 @@
     <artifactId>car_rental</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Car Rental</name>
-    <description>Car Rental App</description>
+    <description>Car Rental App for learning Angular and Spring Security</description>
     <packaging>pom</packaging>
 
     <parent>

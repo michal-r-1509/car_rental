@@ -1,2 +1,2 @@
 # car_rental
-car rental app
+Car Rental App for learning Angular and Spring Security

@@ -1,6 +1,5 @@
 package com.michal.car_rental_app.domain;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;

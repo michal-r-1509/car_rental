@@ -28,7 +28,7 @@ export class LoginComponent {
     }
     this.loginService.authenticate(this.getEmail().value, this.getPassword().value).subscribe({
       next: (data) => {
-        console.log('NewUser login success');
+        console.log(this.getEmail().value + ' login success');
         if (this.loginService.getRole().includes("CLIENT")){
           this.router.navigate(['home']);
         }else if (this.loginService.getRole().includes("LENDER")){

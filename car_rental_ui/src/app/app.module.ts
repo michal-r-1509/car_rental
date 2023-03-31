@@ -31,13 +31,13 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MAT_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import { CarFormComponent } from './shared/car-form/car-form.component';
+import {CarFormComponent} from './shared/car-form/car-form.component';
 
 const CUSTOM_DATE_FORMATS: MatDateFormats = {
-  parse:{
+  parse: {
     dateInput: 'l, LTS'
   },
-  display:{
+  display: {
     dateInput: 'DD-MM-YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
@@ -95,4 +95,5 @@ const CUSTOM_DATE_FORMATS: MatDateFormats = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

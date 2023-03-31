@@ -1,1 +1,29 @@
-<h1>THIS IS HOME PAGE FOR EVERYONE!</h1>
+<main>
+  <mat-card-content *ngFor="let car of cars">
+    <mat-card>
+      <div class="photo">
+        <img src="assets/photo-not-available.png">
+      </div>
+      <div>
+        <mat-card-header>
+          <mat-card-title>{{car.brand}} {{car.model}}</mat-card-title>
+          <mat-card-subtitle>&euro;{{car.cost.perDay}} per day</mat-card-subtitle>
+          <mat-card-subtitle>&euro;{{car.cost.insurance}} for insurance</mat-card-subtitle>
+        </mat-card-header>
+
+        <div class="facilities">
+          <mat-card-content class="inside-content">
+            <span class="facilities">seats: {{car.carDetails.seats}}</span>
+            <span class="facilities">gearbox: {{car.carDetails.gearboxType.toLowerCase()}}</span>
+            <span class="facilities">fuel: {{car.carDetails.fuelType.toLowerCase()}}</span>
+          </mat-card-content>
+        </div>
+        <mat-card-actions>
+          <button mat-button *ngIf="permitToReserve()" (click)="reserveCarDialog(car.id)">RESERVE
+            <mat-icon>add_shopping_cart</mat-icon>
+          </button>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </mat-card-content>
+</main>

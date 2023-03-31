@@ -1,0 +1,35 @@
+main{
+  display: grid;
+  height: 0%;
+}
+mat-card-content{
+  flex-direction: row;
+  height: fit-content;
+  width: fit-content;
+  padding: 10px;
+}
+.inside-content{
+  display: grid;
+  flex-direction: column;
+}
+mat-card-title{
+  padding-bottom: 10px;
+}
+
+mat-card{
+  flex-direction: row;
+}
+mat-card-actions{
+  float: right;
+}
+.facilities{
+  font-size: small;
+  padding-right: 2em;
+  color: rgba(0,0,0,0.54);
+}
+
+.photo{
+  display: flex;
+  padding: 5px;
+  vertical-align: auto;
+}

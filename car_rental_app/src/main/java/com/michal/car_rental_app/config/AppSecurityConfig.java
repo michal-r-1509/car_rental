@@ -1,6 +1,5 @@
 package com.michal.car_rental_app.config;
 
-import com.michal.car_rental_app.login.security.CustomAuthEntryPoint;
 import com.michal.car_rental_app.login.security.CustomAuthFailureHandler;
 import com.michal.car_rental_app.login.security.CustomAuthSuccessHandler;
 import com.michal.car_rental_app.login.security.CustomLogoutSuccessHandler;

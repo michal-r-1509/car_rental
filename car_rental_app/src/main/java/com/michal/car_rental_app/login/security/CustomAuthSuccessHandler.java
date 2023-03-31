@@ -42,11 +42,13 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
             }
             currentUser.setId(user.getId());
             currentUser.setEmail(user.getEmail());
+            currentUser.setRole(user.getRole());
 
             log.info("current user id: " + currentUser.getId() + ", email: " + currentUser.getEmail());
 
             UserDetails userDetails = (UserDetails) principal;
             String role = userDetails.getAuthorities().toString();
+            log.info("user role: " + currentUser.getRole());
             LoginResponseDto loginResponseDTO = new LoginResponseDto(userDetails.getUsername(), role);
             String responseBody = objectMapper.writeValueAsString(loginResponseDTO);
 
