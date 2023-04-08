@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>{{data.car.brand}} {{data.car.model}} reservation</h1>
+<form (ngSubmit)="submit()" [formGroup]="reservationForm">
+
+  <mat-card-header>
+    <mat-card-subtitle>&euro;{{data.car.cost.perDay}} per day</mat-card-subtitle>
+    <mat-card-subtitle>&euro;{{data.car.cost.insurance}} for insurance</mat-card-subtitle>
+    <mat-card-subtitle>lender: {{data.user.name}}</mat-card-subtitle>
+    <mat-card-subtitle>contact: {{data.user.phoneNumber}}</mat-card-subtitle>
+    <mat-card-subtitle>pick address: {{data.user.address}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <div mat-dialog-content class="form_container">
+
+    <div class="inner_form_container">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" [formControl]="startDayControl" (ngModelChange)="totalPaymentCalculator()">
+        <input matEndDate placeholder="End date" [formControl]="endDayControl" (ngModelChange)="totalPaymentCalculator()">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    </div>
+  </div>
+
+    <div mat-dialog-content class="form_container">
+      <span>TOTAL: {{total}}</span>
+    </div>
+
+  <div mat-dialog-actions class="footer_buttons">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button type="submit" cdkFocusInitial>Reserve</button>
+  </div>
+</form>
+

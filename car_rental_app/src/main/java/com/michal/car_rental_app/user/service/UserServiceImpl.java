@@ -1,12 +1,11 @@
 package com.michal.car_rental_app.user.service;
 
-import com.michal.car_rental_app.domain.CurrentUser;
-import com.michal.car_rental_app.domain.RoleType;
-import com.michal.car_rental_app.domain.User;
-import com.michal.car_rental_app.domain.UserDetails;
+import com.michal.car_rental_app.car.repository.CarRepository;
+import com.michal.car_rental_app.domain.*;
 import com.michal.car_rental_app.exceptions.ElementNotFoundException;
 import com.michal.car_rental_app.exceptions.IncorrectPasswordException;
 import com.michal.car_rental_app.exceptions.UserExistException;
+import com.michal.car_rental_app.reservation.repository.ReservationRepository;
 import com.michal.car_rental_app.user.dto.UserDeleteRequestDto;
 import com.michal.car_rental_app.user.dto.UserDto;
 import com.michal.car_rental_app.user.dto.UserRegistrationRequestDto;
@@ -21,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,10 +32,12 @@ public class UserServiceImpl implements UserService {
     private final UserDetailsRepository userDetailsRepository;
     private final UserMapper userMapper;
     private final CurrentUser currentUser;
+    private final CarRepository carRepository;
+    private final ReservationRepository reservationRepository;
 
     @Override
     public void createUser(UserRegistrationRequestDto request) {
-        if(userRepository.findByEmail(request.getEmail()).isPresent()){
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserExistException("user with email " + request.getEmail() + " already exists");
         }
         User user = userMapper.userMapper(request);
@@ -80,10 +82,15 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(UserDeleteRequestDto data) {
         User user = userRepository.findByIdAndActive(currentUser.getId(), true)
                 .orElseThrow(getUserNotFound());
-        if (user.getPassword().equals(md5Encoder.getMD5Hash(data.getPassword())) && data.isConfirm())
-        {
+        if (user.getPassword().equals(md5Encoder.getMD5Hash(data.getPassword())) && data.isConfirm()) {
             user.setActive(false);
             userRepository.save(user);
+            List<Car> cars = carRepository.findCarsByUserId(currentUser.getId());
+            cars.forEach(car -> {
+                        car.setAvailable(false);
+                        carRepository.save(car);
+                        reservationRepository.deleteByLenderId(currentUser.getId());
+                    });
             return;
         }
         throw new IncorrectPasswordException("password incorrect");

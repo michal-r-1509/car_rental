@@ -2,10 +2,12 @@ package com.michal.car_rental_app.car.service;
 
 import com.michal.car_rental_app.car.dto.CarRequestDto;
 import com.michal.car_rental_app.car.dto.CarResponseDto;
+import com.michal.car_rental_app.car.dto.UserInfoResponseDto;
 import com.michal.car_rental_app.car.repository.CarDetailsRepository;
 import com.michal.car_rental_app.car.repository.CarRepository;
 import com.michal.car_rental_app.car.repository.CostsRepository;
 import com.michal.car_rental_app.car.tools.CarMapper;
+import com.michal.car_rental_app.car.tools.UserInfoMapper;
 import com.michal.car_rental_app.domain.*;
 import com.michal.car_rental_app.exceptions.ActionNotAllowedException;
 import com.michal.car_rental_app.exceptions.ElementNotFoundException;
@@ -29,9 +31,10 @@ public class CarServiceImpl implements CarService{
     private final CostsRepository costsRepository;
     private final CarMapper carMapper;
     private final CurrentUser currentUser;
+    private final UserInfoMapper userInfoMapper;
 
     @Override
-    public void saveCar(CarRequestDto carRequestDto) {
+    public CarResponseDto saveCar(CarRequestDto carRequestDto) {
         lenderPermissionCheck(currentUser.getRole());
         User user = userRepository.findById(currentUser.getId()).orElseThrow(
                 () -> new ElementNotFoundException("User not found"));
@@ -41,29 +44,42 @@ public class CarServiceImpl implements CarService{
         carDetailsRepository.save(car.getCarDetails());
         costsRepository.save(car.getCost());
 
-        user.getCars().add(car);
-        userRepository.save(user);
+//        user.getCars().add(car);
+//        userRepository.save(user);
         log.info("car created");
+        return carMapper.mapCarToResponse(car);
     }
 
     @Override
-    public void updateCar(CarRequestDto carRequestDto) {
+    public CarResponseDto updateCar(CarRequestDto carRequestDto) {
         lenderPermissionCheck(currentUser.getRole());
         Car toUpdate = carRepository.findById(carRequestDto.getId()).orElseThrow(
                 () -> new ElementNotFoundException("car with id: " + carRequestDto.getId() + " not found"));
         User user = userRepository.findById(currentUser.getId()).orElseThrow(
                 () -> new ElementNotFoundException("User not found"));
 
-        toUpdate.setCarDetails(carRequestDto.getCarDetails());
         toUpdate.setBrand(carRequestDto.getBrand());
         toUpdate.setModel(carRequestDto.getModel());
         toUpdate.setAvailable(carRequestDto.isAvailable() && userInfoCompletenessCheck(user));
-        toUpdate.setCost(carRequestDto.getCost());
+
+        CarDetails carDetailsToUpdate = toUpdate.getCarDetails();
+        carDetailsToUpdate.setSeats(carRequestDto.getCarDetails().getSeats());
+        carDetailsToUpdate.setFuelType(carRequestDto.getCarDetails().getFuelType());
+        carDetailsToUpdate.setGearboxType(carRequestDto.getCarDetails().getGearboxType());
+
+        Cost costsToUpdate = toUpdate.getCost();
+        costsToUpdate.setPerDay(carRequestDto.getCost().getPerDay());
+        costsToUpdate.setInsurance(carRequestDto.getCost().getInsurance());
+
+        //toUpdate.setCarDetails(carRequestDto.getCarDetails());
+        //toUpdate.setCost(carRequestDto.getCost());
 
         carRepository.save(toUpdate);
-        carDetailsRepository.save(toUpdate.getCarDetails());
-        costsRepository.save(toUpdate.getCost());
+        carDetailsRepository.save(carDetailsToUpdate);
+        costsRepository.save(costsToUpdate);
+
         log.info("car updated");
+        return carMapper.mapCarToResponse(toUpdate);
     }
 
     @Override
@@ -74,9 +90,25 @@ public class CarServiceImpl implements CarService{
     }
 
     @Override
-    public Car getCar(Long id) {
-        return carRepository.findById(id)
+    public UserInfoResponseDto getUserInfo(Long carId) {
+        Car car = carRepository.findById(carId).orElseThrow(
+                () -> new ElementNotFoundException("Car not found"));
+        if (car.getUser() == null){
+            throw new ElementNotFoundException("User not found");
+        }
+        User user = userRepository.findById(car.getUser().getId()).orElseThrow(
+                () -> new ElementNotFoundException("User not found"));
+
+        log.info("get user info");
+
+        return userInfoMapper.mapUserToResponse(user);
+    }
+
+    @Override
+    public CarResponseDto getCar(Long id) {
+        Car car = carRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException("car with id: " + id + " not found"));
+        return carMapper.mapCarToResponse(car);
     }
 
     @Override
@@ -94,7 +126,11 @@ public class CarServiceImpl implements CarService{
     @Override
     public void deleteCar(Long id) {
         lenderPermissionCheck(currentUser.getRole());
-        if (carRepository.existsById(id)) {
+        User user = userRepository.findById(currentUser.getId()).orElseThrow(
+                () -> new ElementNotFoundException("User not found"));
+        if (carRepository.existsByIdAndUserId(id, user.getId())) {
+//            user.getCars().removeIf(car -> car.getId().equals(id));
+//            userRepository.save(user);
             carRepository.deleteById(id);
             log.info("car deleted");
         } else {

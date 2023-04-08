@@ -1,8 +1,8 @@
 import {Car} from "../domain/car";
 import {UserDto} from "../domain/userDto";
 
-export interface ModalDialogData{
-  title: string;
+export interface ReservationDialogData{
   tempId: number;
   car: Car;
+  user: UserDto;
 }

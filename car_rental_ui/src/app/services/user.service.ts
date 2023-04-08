@@ -15,7 +15,6 @@ export class UserService {
 
   createUser(newUser: NewUser): Observable<void> {
     return this.http.post<void>(this.apiConstraints.apiUrl + 'users/new', newUser);
-    //.subscribe(data => data);
   }
 
   getCurrentUser(): Observable<UserDto>{
@@ -23,8 +22,6 @@ export class UserService {
   }
 
   updateUserDetails(userDetails: UserDto): Observable<void> {
-    // const username = sessionStorage.getItem('username');
-    // userDetails.email = username == null ? '' : username;
     return this.http.post<any>(this.apiConstraints.apiUrl + 'users/current', userDetails).pipe();
   }
 

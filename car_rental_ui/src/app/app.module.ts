@@ -25,13 +25,18 @@ import {HomeComponent} from './pages/home/home.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FleetComponent} from './pages/fleet/fleet.component';
 import {MatCardModule} from "@angular/material/card";
-import {AddCarComponent} from './pages/add-car/add-car.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MAT_DATE_FORMATS, MatDateFormats, MatNativeDateModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {CarFormComponent} from './shared/car-form/car-form.component';
+import {ConfirmationFormComponent} from './shared/confirmation-form/confirmation-form.component';
+import { ReservationFormComponent } from './shared/reservation-form/reservation-form.component';
+import { ReservationsComponent } from './pages/reservations/reservations.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 const CUSTOM_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -56,8 +61,10 @@ const CUSTOM_DATE_FORMATS: MatDateFormats = {
     AccountComponent,
     HomeComponent,
     FleetComponent,
-    AddCarComponent,
-    CarFormComponent
+    CarFormComponent,
+    ConfirmationFormComponent,
+    ReservationFormComponent,
+    ReservationsComponent
   ],
   imports: [
     BrowserModule,
@@ -86,7 +93,10 @@ const CUSTOM_DATE_FORMATS: MatDateFormats = {
     MatDatepickerModule,
     MatIconModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [ApiConstraints, AuthService, [

@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FleetComponent} from "../../pages/fleet/fleet.component";
 import {ModalDialogData} from "../modalDialogData";
@@ -12,10 +12,10 @@ import {Car} from "../../domain/car";
   templateUrl: './car-form.component.html',
   styleUrls: ['./car-form.component.scss']
 })
-export class CarFormComponent {
+export class CarFormComponent implements OnInit{
 
   today = new Date();
-  tempId = 0;
+  //tempId = 0;
 
   // regNoControl = new FormControl("");
   brandControl = new FormControl("");
@@ -60,7 +60,6 @@ export class CarFormComponent {
   gearboxTypes: string[] = ["manual", "automatic"];
   fuelTypes: string[] = ["gasoline", "lpg", "diesel", "electric", "hybrid", "cng"];
 
-
   constructor(public dialogRef: MatDialogRef<FleetComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ModalDialogData,
               private authService: AuthService, private carService: CarService) {
@@ -71,7 +70,21 @@ export class CarFormComponent {
     this.carForm.reset();
   }
 
+  ngOnInit(): void {
+    if (this.data.tempId != 0 && this.data.car != null){
+      this.brandControl.setValue(this.data.car.brand);
+      this.modelControl.setValue(this.data.car.model);
+      this.availableControl.setValue(this.data.car.available);
+      this.gearboxControl.setValue(this.data.car.carDetails.gearboxType.toLowerCase());
+      this.fuelControl.setValue(this.data.car.carDetails.fuelType.toLowerCase());
+      this.seatsControl.setValue(this.data.car.carDetails.seats.toString());
+      this.perDayControl.setValue(this.data.car.cost.perDay.toString());
+      this.insuranceControl.setValue(this.data.car.cost.insurance.toString());
+    }
+  }
+
   submit(): void {
+    console.log("car id: " + this.data.tempId)
     if (!this.authService.isUserLoggedIn() || !this.authService.getRole().includes("LENDER") || this.carForm.invalid) {
       console.log("car data NOT submitted");
       // let temp: string = this.regNoControl.value as string;
@@ -107,24 +120,28 @@ export class CarFormComponent {
     }
 
     if (this.data.tempId != 0) {
-      car.id = this.tempId;
+      car.id = this.data.tempId;
       this.carService.updateCar(car, this.data.tempId).pipe().subscribe({
-        next: () => {console.log("poszlo")},
+        next: (data: Car) => {
+          console.log("poszlo, car id: " + this.data.tempId);
+          this.dialogRef.close(data);
+          this.carForm.reset();
+        },
         error: () => {console.log("nie poszlo")},
         complete: () => {
-          this.dialogRef.close();
-          this.carForm.reset();
+
         }
       });
       console.log("car updated");
     } else {
       this.carService.createCar(car).pipe().subscribe({
-        next: () => {console.log("poszlo")},
-        error: () => {console.log("nie poszlo create")},
-        complete: () => {
-          this.dialogRef.close();
+        next: (data: Car) => {
+          console.log("poszlo");
+          this.dialogRef.close(data);
           this.carForm.reset();
-        }
+        },
+        error: () => {console.log("nie poszlo create")},
+
       });
       console.log(car);
       console.log("new car created");

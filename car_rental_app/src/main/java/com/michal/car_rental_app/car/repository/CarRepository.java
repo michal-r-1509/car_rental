@@ -10,4 +10,5 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findCarsByUserId(Long userId);
     List<Car> findCarsByAvailableIsTrue();
+    boolean existsByIdAndUserId(Long carId, Long userId);
 }

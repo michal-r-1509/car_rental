@@ -25,6 +25,6 @@ public class User extends BaseEntity{
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private UserDetails userDetails;
 
-    @OneToMany(orphanRemoval = true)
-    private List<Car> cars;
+    /*@OneToMany(orphanRemoval = true)
+    private List<Car> cars;*/
 }

@@ -7,6 +7,7 @@ import {LogoutComponent} from "./pages/logout/logout.component";
 import {AccountComponent} from "./pages/account/account.component";
 import {HomeComponent} from "./pages/home/home.component";
 import {FleetComponent} from "./pages/fleet/fleet.component";
+import {ReservationsComponent} from "./pages/reservations/reservations.component";
 
 const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'logout', component: LogoutComponent},
   {path: 'account', component: AccountComponent},
   {path: 'fleet', component: FleetComponent},
+  {path: 'reservations', component: ReservationsComponent},
   {path: '**', component: HomeComponent}
 ];
 

@@ -2,16 +2,12 @@
   <div>
     <a mat-button [routerLink]="'home'">CAR RENTAL <mat-icon>home</mat-icon></a>
     <div *ngIf="loginService.isUserLoggedIn()">
-      <a mat-button *ngIf="loginService.getRole().includes('CLIENT')"
-         [routerLink]="'page-not-found'" routerLinkActive="active">Link client</a>
-      <a mat-button *ngIf="loginService.getRole().includes('CLIENT')"
-         [routerLink]="'page-not-found'" routerLinkActive="active">Link client no 2</a>
       <a mat-button *ngIf="loginService.getRole().includes('LENDER')"
          [routerLink]="'fleet'" routerLinkActive="active">Fleet
         <mat-icon> directions_car</mat-icon>
       </a>
-      <a mat-button *ngIf="loginService.getRole().includes('LENDER')"
-         [routerLink]="'page-not-found'" routerLinkActive="active">Reservations
+      <a mat-button *ngIf="loginService.getRole().includes('LENDER') || loginService.getRole().includes('CLIENT')"
+         [routerLink]="'reservations'" routerLinkActive="active">Reservations
         <mat-icon>shopping_cart</mat-icon>
       </a>
     </div>
@@ -35,8 +31,4 @@
       <mat-icon>power_settings_new</mat-icon>
     </a>
   </div>
-
-  <!--delete this link!!-->
-  <a [routerLink]="'fleet'" routerLinkActive="active">Fleet</a>
-
 </mat-toolbar>

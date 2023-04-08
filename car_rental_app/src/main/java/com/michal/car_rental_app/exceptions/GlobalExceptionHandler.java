@@ -43,4 +43,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public String methodNotAllowed(ActionNotAllowedException e){
         return e.getMessage();
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String illegalArgumentException(IllegalArgumentException e){
+        return e.getMessage();
+    }
 }

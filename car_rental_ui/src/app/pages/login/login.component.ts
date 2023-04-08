@@ -32,7 +32,7 @@ export class LoginComponent {
         if (this.loginService.getRole().includes("CLIENT")){
           this.router.navigate(['home']);
         }else if (this.loginService.getRole().includes("LENDER")){
-          this.router.navigate(['account']);
+          this.router.navigate(['reservations']);
         }
       },
       error: () => {console.log('Login failed');
